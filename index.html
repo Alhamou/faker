@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Simple HTML document</title>
+  
+  <style>
+	*, *::after, *::befor{
+		box-sizing: border-box;
+	}
+	.in_network {
+
+		width: 330px;
+	}
+	.network{
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		align-items: center;
+		height: 100vh;
+	}
+	.network input{
+		padding: 0px;
+		margin: 0px;
+		width: 30px;
+		height: 30px;
+		text-align: center;
+	}
+	.selectedInputs{
+		background: #acd2df;
+	}
+  </style>
+</head>
+<body>
+  
+<form id="form_network">
+	<div class="network">
+		<div class="in_network" id="in_network"></div>
+		<button type="button" onclick="saveAllLetter()">save</button>
+		<button type="button" onclick="setAllSelectedLetter()">set select</button>
+	</div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+
+function saveAllLetter(){
+	var opj = $('form#form_network').serializeObject();
+	
+	console.log(opj)
+}
+
+
+$('#in_network').each(function(){
+	
+	for (let i=1; i <=100; i++ ){
+		
+		$(this).append('<input type="text" name="'+i+'">')
+	}
+	
+})
+
+
+$('#in_network input').on('mousedown', function(e){  
+	
+    if(e.ctrlKey){
+		
+		$(e.target).toggleClass('selectedInputs')
+        
+    }  
+});
+
+function setAllSelectedLetter(){
+	$('.selectedInputs').each(function(i,elm){
+		let elem = $(elm).attr('name')
+		let val = $(elm).val()
+		
+		console.log(elem)
+	})
+}
+
+
+
+$.fn.serializeObject = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+};
+</script>
+</body>
+</html>
