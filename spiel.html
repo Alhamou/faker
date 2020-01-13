@@ -16,7 +16,7 @@
 		justify-content: center;
 		align-content: center;
 		align-items: center;
-		height: 80vh;
+		height: 100vh;
 	}
 	.network input{
 		padding: 0px;
@@ -24,86 +24,40 @@
 		width: 30px;
 		height: 30px;
 		text-align: center;
-		
 	}
-
 	.selectedInputs{
 		background: #acd2df;
-	}
-	.buttons{
-		text-align: center;
 	}
   </style>
 </head>
 <body>
-	<div class="buttons">
+	
+<form id="form_network" autocomplete="off"  onmousedown="mouseDown(event)" onmouseup="mouseUp(event)" >
+	<div class="network">
+		<div class="in_network" id="in_network"></div>
 		<button type="button" onclick="saveAllLetter()">save</button>
 		<button type="button" onclick="setAllSelectedLetter()">set select</button>
 		<button type="button" onclick="resetForm()">reset</button>
 	</div>
-
-	<form action="">
-		<div>
-			<select name="" id="">
-				<option value="img">Image</option>
-				<option value="adjectv">Adjectv</option>
-				<option value="sentence">Sentence</option>
-			</select>
-		</div>
-		<br>
-		<div>
-			<input type="file">
-		</div>
-	
-	
-	</form>
-
-<form id="form_network" autocomplete="off"  onmousedown="mouseDown(event)" onmouseup="mouseUp(event)" >
-	<div class="network">
-		<div class="in_network" id="in_network"></div>
-		
-	</div>
 </form>
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-
-
 const x = 10
 const y = 10
 function mouseDown(e) {
 	
 	$('#in_network input').mousemove(function(e) {
-		addClasses(e)
+			addClasses(e.target)
 	})
-
-	$('#in_network input').mousemove(function(e) {
-		if(e.ctrlKey){
-			delClasses(e)
-    	} 
-	})
-    if(e.ctrlKey){
-		delClasses(e)
-	} 
-
 }
 
-
-function delClasses(e){
-	$(e.target).removeClass('selectedInputs')
-}
 function mouseUp(e) {
 	$('#in_network input').unbind();
 }
 function addClasses(e) {
-	if(!$(e.target).hasClass("selectedInputs")){
-		$(e.target).addClass("selectedInputs");
-	}
-	// $(e.target).css("background-color","red")
+
+		$(e).css("background-color","red")
 	
 }
 
@@ -116,18 +70,11 @@ function saveAllLetter(){
 
 $('#in_network').each(function(){
 	setX = 0
-	setY = 1
+	setY = 0
 	for (let i=1; i <=100; i++ ){
-		setX ++
-
-		$(this).append('<input data-x="'+setX+'" data-y="'+setY+'" onKeyDown="if(this.value.length==1 && event.keyCode!=8) return false;" type="text" name="'+i+'">')
-
-		if(i % x === 0) {
-			setX=0
-			setY++
-		}
-		
-		
+		setX = i
+		if(i / x === 0)
+		$(this).append('<input data-x="'+i+'" data-y="" readonly type="text" value="'+i+'"name="'+i+'">')
 	}
 	
 })
@@ -137,16 +84,13 @@ function setAllSelectedLetter(){
 	$('.selectedInputs').each(function(i,elm){
 		let elem = $(elm).attr('name')
 		let val = $(elm).val()
-		let xVal = $(elm).data("y")
-		let yVal = $(elm).data("x")
 		
-		console.log(`Num.: ${elem}`, `Val.: ${val}` , `X: ${xVal}`, `Y.: ${yVal}`)
+		console.log(elem, val)
 	})
 }
 
 function resetForm(){
 	$('form#form_network')[0].reset()
-	$('form#form_network input').removeClass("selectedInputs")
 }
 
 $.fn.serializeObject = function() {
